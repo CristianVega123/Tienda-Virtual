@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+    font-family: 'Inter', sans-serif;
+    color: white;
+}
+
+@layer components {
+    .glass {
+        background-color: rgba(255, 255, 255, 0.285);
+        backdrop-filter: blur(10px);
+        --webkit-backdrop-filter : blur(10px);
+        width: 60vw; 
+        height: 70vh;
+        min-width: 385px;
+    }
+
+    .glass-dark {
+        background-color: rgba(39, 37, 37, 0.291);
+        backdrop-filter: blur(10px);
+        --webkit-backdrop-filter : blur(10px);
+        width: 60vw; 
+        height: 70vh;
+        min-width: 385px;
+    }
+    .imgp {
+        width: max-content;
+        height: max-content;
+        padding: 1.4em;
+        border: none;
+    }
+
+    .shadow ~ .atropos-shadow{
+        background: #7858fa24;
+        padding: 2em;
+        border-radius: 3em;
+    }
+}
