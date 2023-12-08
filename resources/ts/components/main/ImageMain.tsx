@@ -11,9 +11,6 @@ export default function ImageMain() {
                 innerClassName="shadow"
                 highlight={false}
                 shadow={true}
-                onEnter={() => console.log("Enter")}
-                onLeave={() => console.log("Leave")}
-                onRotate={(x, y) => console.log("Rotate", x, y)}
             >
                 <img src={Img} alt="" />
             </Atropos>

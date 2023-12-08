@@ -2,45 +2,59 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable 
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
-     *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'user_name',
+        'user_surname',
+        'user_email',
+        'user_password',
+        'user_valid'
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
+     * Primary key
+     *  @var string
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $primaryKey = "user_id";
+
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
+     * Cast
+     * @var array
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+
+    protected $cast = [
+        'user_valid' => 'boolean',
+        'user_password' => 'hashed'
     ];
+
+
+    /**
+     * Hide the specific properties that are stored into array when returned a json 
+     */
+
+     protected $hidden = [
+        'user_password',
+        'user_role'
+     ];
+
+    /**
+     * Timestamp
+     * @var bool
+     */
+    public $timestamps = false;
+
 }

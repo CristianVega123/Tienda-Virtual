@@ -16,7 +16,7 @@ export default function Main() {
                     <span className="text-[15px] mt-3 block">
                         ¿Ya tienes alguna cuenta? Registrate{" "}
                         <Link
-                            to="/register"
+                            to="/register/Log_in"
                             className="text-[#6636f1] indent-1 "
                         >
                             aquí
