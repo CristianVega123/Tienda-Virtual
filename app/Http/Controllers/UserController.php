@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
+use App\Mail\VerifyEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -22,12 +24,12 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, User $user) 
+    public function storeUser(Request $request, User $user)
     {
         $validate = $request->validate([
             'user_name' => 'required|string|max:100',
             'user_surname' => 'required|string|max:100',
-            'user_email' => 'required|email:rfc,dns|max:100',
+            'user_email' => 'required|email:rfc,dns|max:100|unique:App\\Models\\User,user_email',
             'user_password' => 'required',
             'user_valid' => 'boolean'
         ]);
@@ -35,8 +37,9 @@ class UserController extends Controller
 
         $hashed = Hash::make($request->input("user_password"));
         $roleDefault = UserRole::USER->value;
+        // dd();
 
-        $person = User::created([
+        $person = User::create([
             'user_name' => $request->input('user_name'),
             'user_surname' => $request->input('user_surname'),
             'user_email' => $request->input('user_email'),
@@ -45,8 +48,18 @@ class UserController extends Controller
             'user_role' => $roleDefault,
         ]);
 
-        return response($person, '201');
+
+        // session([
+        //     "id_user" => $person->user_od,
+        //     "role" => $person->user_role,
+        // ]);
+
+
+        return response()->json([
+            'user_created' => $person
+        ], 201);
     }
+
 
     /**
      * Display the specified resource.

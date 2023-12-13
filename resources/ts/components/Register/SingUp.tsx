@@ -3,6 +3,7 @@ import Name from "../../../assets/name-img.png";
 import Email from "../../../assets/email-img.png";
 import Password from "../../../assets/password-img.png";
 import { Link, redirect } from 'react-router-dom';
+import axios from 'axios';
 
 
 export default function SingUp() {
@@ -12,7 +13,11 @@ export default function SingUp() {
     const sentDataUser = (event: React.MouseEvent) => {
         if ($form.current) {
             const formData = new FormData($form.current);
-            console.log(formData.get("user_password"));
+
+            formData.append("user_valid", "0");
+            axios.post("/api/create_client", formData)
+
+            $form.current.reset();
         }
     }
 
@@ -39,6 +44,7 @@ export default function SingUp() {
                             className="input"
                             name="user_name"
                             placeholder="Nombre"
+                            required
                         />
                     </div>
                     <div className="relative">
@@ -50,6 +56,7 @@ export default function SingUp() {
                             className="input"
                             name="user_surname"
                             placeholder="Apellido"
+                            required
                         />
                     </div>
                     <div className="relative">
@@ -61,6 +68,7 @@ export default function SingUp() {
                             className="input"
                             name="user_email"
                             placeholder="Email"
+                            required
                         />
                     </div>
                     <div className="relative">
@@ -72,6 +80,7 @@ export default function SingUp() {
                             className="input"
                             name="user_password"
                             placeholder="Contraseña"
+                            required
                         />
                     </div>
                     <button onClick={sentDataUser}>Enviar</button>

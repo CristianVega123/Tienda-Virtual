@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -21,7 +22,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'user_surname',
         'user_email',
         'user_password',
-        'user_valid'
+        'user_valid',
+        'user_role'
     ];
 
     /**
@@ -48,7 +50,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
      protected $hidden = [
         'user_password',
-        'user_role'
      ];
 
     /**
@@ -56,5 +57,10 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var bool
      */
     public $timestamps = false;
+
+
+    public function session() : HasMany{
+        return $this->hasMany(Session::class, "user_id");
+    }
 
 }

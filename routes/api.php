@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NumberValidationControllers;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,4 +20,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/create_client', [UserController::class, "store"]);
+/**
+ * ? Ruta con resources apis, que será acerca de los datos del usuario.
+ */
+
+Route::post('/create_client', [UserController::class, "storeUser"]);
+
+/**
+ * ? Ruta para crear un número que será enviado hacia su email para verficar el correo.
+ */
+Route::get("/generated_validation", NumberValidationControllers::class);
+
+
+/**
+ * ? Validacion de la clave númerica enviado al email del usuario.
+ */
+
+//  Route::post("", );
+

@@ -21,7 +21,18 @@ class CreatedUserTest extends TestCase
             'user_valid' => 0
         ]);
 
+
+
         $response->assertStatus(201);
-        
+        $response->assertJson([
+            "user_created" => [
+
+                'user_name' => 'Cristian',
+                'user_surname' => 'Vega Lévano',
+                'user_email' => 'cristianAdmin@gmail.com',
+                'user_password' => "adminCris",
+                'user_valid' => 0
+            ]
+        ]);
     }
 }
