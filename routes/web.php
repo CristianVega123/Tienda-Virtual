@@ -24,6 +24,6 @@ Route::get("/register/{modeRegister?}", function (?string $modeRegister = null) 
     return view("index", ["title" => "Acceso a la tienda"]);
 });
 
-Route::get("/products", function () {
+Route::get("/store", function () {
     return view('index', ["title" => "Productos"]);
 });

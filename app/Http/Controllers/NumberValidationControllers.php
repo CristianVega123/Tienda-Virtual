@@ -14,14 +14,7 @@ use Illuminate\Support\Facades\Mail;
 
 class NumberValidationControllers extends Controller
 {
-    public function __construct(protected User $user, protected VerifyEmail $verifyEmail)
-    {
-        
-    }
-
     public function __invoke(Request $request) {
-        // Mail::to()->send(new VerifyEmail());
-        
 
     }
 }

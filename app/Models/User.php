@@ -59,8 +59,4 @@ class User extends Authenticatable implements MustVerifyEmail
     public $timestamps = false;
 
 
-    public function session() : HasMany{
-        return $this->hasMany(Session::class, "user_id");
-    }
-
 }

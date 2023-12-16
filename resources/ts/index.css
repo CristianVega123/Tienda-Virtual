@@ -46,5 +46,37 @@
         outline: none;
         border-radius: 20px;
         padding-left: 2.7em;
+        max-width: 21rem
+    }
+    .dialog {
+        animation: close 0.75s ease-in-out;
+    }
+
+    .dialog::backdrop {
+        background-color: rgba(0, 0, 0, 0.679);
+        animation: open 0.75s ease-in-out;
+    }
+    .dialog[open] {
+        animation: open 0.75s ease-in-out;
+    }
+
+    .closeDialog{ 
+    }
+
+    @keyframes open {
+        0% {
+            opacity: 0;
+        } 
+        100% {
+            opacity: 1;
+        }
+    }
+    @keyframes close {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
     }
 }

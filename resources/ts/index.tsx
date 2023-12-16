@@ -29,7 +29,7 @@ const router = createBrowserRouter([
         element: <App />,
     },
     {
-        path: "/products",
+        path: "/store",
         element: <Tienda />,
     },
     {
@@ -41,10 +41,10 @@ const router = createBrowserRouter([
             },
         ],
     },
-    {
-        path: "/verifyEmail",
-        element: <ValidationEmail />
-    }
+    // {
+    //     path: "/verifyEmail",
+    //     element: <ValidationEmail />
+    // }
 ]);
 
 root.render(

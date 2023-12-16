@@ -49,12 +49,12 @@ class UserController extends Controller
         ]);
 
 
-        // session([
-        //     "id_user" => $person->user_od,
-        //     "role" => $person->user_role,
-        // ]);
+        session(([
+            "user_id" => $person->user_id
+        ]));
 
-
+        session()->flash("number_valid", );
+        
         return response()->json([
             'user_created' => $person
         ], 201);
