@@ -20,8 +20,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'user_name',
         'user_surname',
-        'user_email',
-        'user_password',
+        'email',
+        'password',
         'user_valid',
         'user_role'
     ];
@@ -38,9 +38,9 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
 
-    protected $cast = [
+    protected $casts = [
         'user_valid' => 'boolean',
-        'user_password' => 'hashed'
+        'password' => 'hashed'
     ];
 
 
@@ -49,7 +49,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
 
      protected $hidden = [
-        'user_password',
+        'password',
      ];
 
     /**

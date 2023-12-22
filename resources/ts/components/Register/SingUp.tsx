@@ -59,7 +59,7 @@ export default function SingUp() {
     return (
         <>
             <main
-                className={`flex justify-center items-center opacity-${
+                className={`flex justify-center items-center flex-col opacity-${
                     showModal ? 0 : 100
                 }`}
             >
@@ -131,13 +131,13 @@ export default function SingUp() {
                             Enviar
                         </button>
                     </form>
-                    <span className="text-center">
+                </div>
+                    <span className="text-center p-3">
                         ¿Ya tienes cuenta? Entonces entra{" "}
                         <Link to="/register/Log_in" className="text-[#6636f1]">
                             aquí
                         </Link>
                     </span>
-                </div>
             </main>
             <ModalVerify show={showModal} changeShow={setshowModal} />
         </>

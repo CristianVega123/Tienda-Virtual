@@ -7,7 +7,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Tienda from "./components/commerce/Tienda";
 import Register from "./components/Register/Register";
 import axios from "axios";
-import ValidationEmail from "./components/Register/ValidationEmail";
 
 const root = createRoot(document.getElementById("app") as HTMLElement);
 

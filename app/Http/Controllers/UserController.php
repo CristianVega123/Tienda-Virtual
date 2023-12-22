@@ -7,6 +7,7 @@ use App\Mail\VerifyEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -29,7 +30,7 @@ class UserController extends Controller
         $validate = $request->validate([
             'user_name' => 'required|string|max:100',
             'user_surname' => 'required|string|max:100',
-            'user_email' => 'required|email:rfc,dns|max:100|unique:App\\Models\\User,user_email',
+            'user_email' => 'required|email:rfc,dns|max:100|unique:App\\Models\\User,email',
             'user_password' => 'required',
             'user_valid' => 'boolean'
         ]);
@@ -42,16 +43,13 @@ class UserController extends Controller
         $person = User::create([
             'user_name' => $request->input('user_name'),
             'user_surname' => $request->input('user_surname'),
-            'user_email' => $request->input('user_email'),
-            'user_password' => $hashed,
+            'email' => $request->input('user_email'),
+            'password' => $hashed,
             'user_valid' => $request->input('user_valid'),
             'user_role' => $roleDefault,
         ]);
 
-
-        session(([
-            "user_id" => $person->user_id
-        ]));
+        Auth::login($person);
 
         session()->flash("number_valid", );
         

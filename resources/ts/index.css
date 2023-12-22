@@ -2,9 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-
 * {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     color: white;
 }
 
@@ -12,8 +11,8 @@
     .glass {
         background-color: rgba(255, 255, 255, 0.285);
         backdrop-filter: blur(10px);
-        --webkit-backdrop-filter : blur(10px);
-        width: 60vw; 
+        --webkit-backdrop-filter: blur(10px);
+        width: 60vw;
         height: 70vh;
         min-width: 385px;
     }
@@ -21,8 +20,8 @@
     .glass-dark {
         background-color: rgba(39, 37, 37, 0.291);
         backdrop-filter: blur(10px);
-        --webkit-backdrop-filter : blur(10px);
-        width: 60vw; 
+        --webkit-backdrop-filter: blur(10px);
+        width: 60vw;
         height: 70vh;
         min-width: 385px;
     }
@@ -33,7 +32,7 @@
         border: none;
     }
 
-    .shadow ~ .atropos-shadow{
+    .shadow ~ .atropos-shadow {
         background: #7858fa24;
         padding: 2em;
         border-radius: 3em;
@@ -46,7 +45,7 @@
         outline: none;
         border-radius: 20px;
         padding-left: 2.7em;
-        max-width: 21rem
+        max-width: 21rem;
     }
     .dialog {
         animation: close 0.75s ease-in-out;
@@ -60,13 +59,17 @@
         animation: open 0.75s ease-in-out;
     }
 
-    .closeDialog{ 
+
+    /** Mostrar el bloque de error en los logins*/
+    .slide-top {
+        animation: open 1.3s ease-in-out both;
     }
+
 
     @keyframes open {
         0% {
             opacity: 0;
-        } 
+        }
         100% {
             opacity: 1;
         }

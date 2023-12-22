@@ -15,8 +15,8 @@ return new class extends Migration
             $table->bigIncrements("user_id");
             $table->string("user_name", 110);
             $table->string("user_surname", 110);    
-            $table->string("user_email", 120)->unique();
-            $table->string("user_password", 150);
+            $table->string("email", 120)->unique();
+            $table->string("password", 150);
             $table->boolean("user_valid")->default(false);
             $table->enum('user_role', ['Admin', "Customer"]);
         });
