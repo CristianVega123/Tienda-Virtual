@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
-use App\Mail\VerifyEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -29,10 +27,10 @@ class UserController extends Controller
     {
         $validate = $request->validate([
             'user_name' => 'required|string|max:100',
-            'user_surname' => 'required|string|max:100',
+            'user_surname' => 'bail|required|string|max:100',
             'user_email' => 'required|email:rfc,dns|max:100|unique:App\\Models\\User,email',
             'user_password' => 'required',
-            'user_valid' => 'boolean'
+            'accept' => 'boolean'
         ]);
 
 
@@ -45,13 +43,21 @@ class UserController extends Controller
             'user_surname' => $request->input('user_surname'),
             'email' => $request->input('user_email'),
             'password' => $hashed,
-            'user_valid' => $request->input('user_valid'),
+            'user_valid' => false,
             'user_role' => $roleDefault,
+
         ]);
 
         Auth::login($person);
 
-        session()->flash("number_valid", );
+        /**
+         * ? Valor creado, que solo estará valido para una sola request, para verificar el usuario 
+         * ? Si y solo si el user_valid es false, entonces no hay necesidad de crear un valor para poder verificar la cuenta
+         */
+        $accept = $request->input("accept");
+        if ($accept) {
+            session()->flash("word_valid", );
+        }
         
         return response()->json([
             'user_created' => $person

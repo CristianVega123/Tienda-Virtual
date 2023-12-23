@@ -42,7 +42,7 @@
         color: black;
         width: 60vw;
         height: 2.8em;
-        outline: none;
+        /* outline: none; */
         border-radius: 20px;
         padding-left: 2.7em;
         max-width: 21rem;
@@ -52,8 +52,10 @@
     }
 
     .dialog::backdrop {
-        background-color: rgba(0, 0, 0, 0.679);
+        background-color: rgba(0, 0, 0, 0.867);
+        backdrop-filter: blur(10px);
         animation: open 0.75s ease-in-out;
+
     }
     .dialog[open] {
         animation: open 0.75s ease-in-out;
