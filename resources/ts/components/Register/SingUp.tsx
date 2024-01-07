@@ -3,27 +3,15 @@ import Name from "../../../assets/name-img.png";
 import Email from "../../../assets/email-img.png";
 import Password from "../../../assets/password-img.png";
 import { Link, Navigate, redirect } from "react-router-dom";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import ModalVerify from "./ModalVerify";
-import { useStateUser } from "../../store/StateGlobalShop";
-import { StateUser } from "../../types/InterfaceState";
-import { ErrosForm } from '../../types/typeErrors'
+import { create_user } from '../../services/ServicesSingUp'
 
 export default function SingUp() {
     const [Auth, setAuth] = useState(false);
     const [showModal, setshowModal] = useState(false);
     const [errorsState, setErrorsState] = useState<any[]>([])
 
-    // * Usar el estado global del usuario (Zustand)
-
-    const {
-        update_user_id,
-        update_user_name,
-        update_user_isValid,
-        update_user_surname,
-        update_user_role,
-        update_user_email,
-    } = useStateUser();
 
     const $form = useRef<HTMLFormElement>(null);
     const $boxError = useRef<HTMLDivElement>(null);
@@ -42,25 +30,10 @@ export default function SingUp() {
                 //TODO: Una vaga idea de mandarle la autorización de enviar el verificador a su email (probablemente el Modal tendra los datos para enviar hacía el controlador)
                 // formData.append("user_valid", "0");
 
-                let auth_person: AxiosResponse = await axios.post(
-                    "/api/create_client",
-                    formData
-                );
-                let data_valid_person: StateUser =
-                    auth_person.data["user_created"];
-
-                //TODO: Mejorar el proceso del manejo de los estados. -> 
-
-                // update_user_id(data_valid_person.user_id);
-                // update_user_name(data_valid_person.user_name);
-                // update_user_surname(data_valid_person.user_surname)
-                // update_user_email(data_valid_person.user_email)
-                // update_user_isValid(data_valid_person.user_isValid)
-                // update_user_role(data_valid_person.user_role)
+                // await create_user(formData)
 
                 // $form.current.reset();
                 setshowModal(true);
-                // setAuth(true)
             } catch (error) {
                 if (error instanceof AxiosError) {
                     let data = error.response?.data;
@@ -155,13 +128,12 @@ export default function SingUp() {
                                 required
                             />
                         </div>
-                        <button
+                        <input
                             type="button"
                             className="border-black border-2 px-5 py-3 rounded-lg"
                             onClick={sentDataUser}
-                        >
-                            Enviar
-                        </button>
+                            value="Enviar"
+                        />
                     </form>
                 </div>
                 <div
@@ -190,7 +162,7 @@ export default function SingUp() {
                     </Link>
                 </span>
             </main>
-            <ModalVerify show={showModal} changeShow={setshowModal} />
+            <ModalVerify show={showModal} changeShow={setshowModal} changeAuth={setAuth} />
         </>
     );
 }

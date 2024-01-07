@@ -1,8 +1,9 @@
 import Layout from "../Layout/LayoutMain";
 import { useStateUser } from "../../store/StateGlobalShop";
 import { useEffect, useState } from "react";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { Navigate } from "react-router-dom";
+import { getUser } from '../../services/ServicesGetUser'
 
 export default function Tienda() {
     const {
@@ -14,6 +15,7 @@ export default function Tienda() {
         user_surname,
     } = useStateUser();
     const [Auth, setAuth] = useState<null | boolean>(null);
+    const [Load, setLoad] = useState(true);
 
     useEffect(() => {
         /**
@@ -21,21 +23,10 @@ export default function Tienda() {
          * *Entendiendo como funciona el servicio de autenticación a través de cookies en laravel
          * -------------- *
          */
-        const valid = async () => {
-            try {
-                //TODO: Miraré si guardaré estos datos (del usuario autentificado), si colocarlos dentro de un estado global y también guardarlo en el localstorage (información no sensible obviamente)
-                let response = await axios.get("/api/user");
-                
-            } catch (error ) {
-                if (error instanceof AxiosError) {
-                    let status = error.response?.status;
-                    if (status !== 200) {
-                        setAuth(false);
-                    }
-               } 
-            }
-        };
-        valid();
+
+        //TODO Todas las llamadas de apis lo estoy colocando en una función aparte para poder contorlar sus errores.
+        
+        getUser(setLoad, setAuth)
     }, []);
 
     /**
@@ -46,6 +37,29 @@ export default function Tienda() {
     if (Auth !== null && Auth === false) {
         return <Navigate to="/register/Log_in" />;
     }
+
+    if (Load) {
+        return <p className="text-black">Cargando</p>;
+    }
+
+    /**
+     * ? Funcion para logout al usuario
+     * ! Prueba
+     */
+
+    const log_out = async () => {
+        try {
+            let data = await axios.post(
+                `${import.meta.env.VITE_APP_URL}/api/logout`,undefined,
+            );
+            console.log(data);
+
+            setAuth(false)
+        } catch (error) {}
+        // if (data.status === 200) {
+        //    setAuth(false)
+        // }
+    };
 
     return (
         <>
@@ -58,6 +72,7 @@ export default function Tienda() {
                     <span>{user_email}</span>
                     <span>{user_isValid}</span>
                     <span>{user_role}</span>
+                    <button onClick={log_out}>Salir</button>
                 </div>
             </Layout>
         </>

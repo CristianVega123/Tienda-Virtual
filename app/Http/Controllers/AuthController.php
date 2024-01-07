@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class AuthController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      */
@@ -23,7 +23,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function storeUser(Request $request, User $user)
+    public function create(Request $request, User $user)
     {
         $validate = $request->validate([
             'user_name' => 'required|string|max:100',
@@ -48,29 +48,37 @@ class UserController extends Controller
 
         ]);
 
+        //? Por alguna razón, he estado teniendo problemas con el Laravel Sanctum y su autentificación basado en cookies. Creo que son los por guard, y era algo que no sabía nada jaja, bueno necesito investigar más sobre el tema de autentificación.
+
         Auth::login($person);
 
-        /**
-         * ? Valor creado, que solo estará valido para una sola request, para verificar el usuario 
-         * ? Si y solo si el user_valid es false, entonces no hay necesidad de crear un valor para poder verificar la cuenta
-         */
-        $accept = $request->input("accept");
-        if ($accept) {
-            session()->flash("word_valid", );
-        }
-        
+        $user = Auth::user();
+
         return response()->json([
-            'user_created' => $person
+            'user_created' => $user
         ], 201);
     }
 
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function login(Request $request)
     {
-        //
+        $credentials = $request->validate([
+            'email' => ["required", "email"],
+            'password' => ["required"],
+        ]);
+
+        $email = $request->input("email");
+        $password = $request->input("password");
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            $request->session()->regenerate();
+            return response($user, 200);
+        }
+
+        return response()->json([
+            'error' => 'Por favor, revisar si el email o contraseña son correctas.'
+        ], 401);
     }
 
     /**
@@ -84,8 +92,15 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function logout(Request $request)
     {
-        //
+
+
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+        return response(200);
     }
 }

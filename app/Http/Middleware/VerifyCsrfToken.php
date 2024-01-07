@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+        //Se soluciona un error, esta es la solución mas facil que he encontrado, pero no es la mejor ya que supuestamente este error (codigo 419) no debería aparecer aún cuando estoy mandando el token CSRF
+        // "api/logout"
     ];
 }

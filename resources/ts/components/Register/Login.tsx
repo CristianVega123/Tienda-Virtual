@@ -33,13 +33,8 @@ export default function Login() {
             try {
                 const formDataValidation = new FormData($form.current);
                 const postValidation = await axios.post(
-                    "/api/validation",
+                    "/api/login",
                     formDataValidation,
-                    {
-                        headers: {
-                            "X-XSRF-TOKEN": CSRF,
-                        },
-                    }
                 );
 
                 if (postValidation.status === 200) {
