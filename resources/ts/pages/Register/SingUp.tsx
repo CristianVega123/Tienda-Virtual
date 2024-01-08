@@ -1,24 +1,42 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Name from "../../../assets/name-img.png";
 import Email from "../../../assets/email-img.png";
 import Password from "../../../assets/password-img.png";
-import { Link, Navigate, redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import ModalVerify from "./ModalVerify";
 import { create_user } from '../../services/ServicesSingUp'
+import Loading from "../../components/Loading";
+import { getUser } from "../../services/ServicesGetUser";
 
 export default function SingUp() {
-    const [Auth, setAuth] = useState(false);
+    //* Estados
+    const [Auth, setAuth] = useState<boolean | null>(null);
+    const [Load, setLoad] = useState(true);
     const [showModal, setshowModal] = useState(false);
     const [errorsState, setErrorsState] = useState<any[]>([])
 
 
+    //* Nodos
     const $form = useRef<HTMLFormElement>(null);
     const $boxError = useRef<HTMLDivElement>(null);
     const $spanError = useRef<HTMLSpanElement>(null);
 
+
+    useEffect(() => {
+        getUser(setLoad, setAuth)
+        return () => {};
+    }, []);
+
+
     if (Auth) {
         return <Navigate to="/store" />;
+    }
+    
+    if (Load) {
+
+        //! Posible error encontrado, al parecer se junta ambos estilos en el layout
+        return <Loading />;
     }
 
     const sentDataUser = async (event: React.MouseEvent) => {
@@ -26,13 +44,9 @@ export default function SingUp() {
             try {
                 const formData = new FormData($form.current);
 
+                //? Servicio para crear el usuario
+                await create_user(formData)
 
-                //TODO: Una vaga idea de mandarle la autorización de enviar el verificador a su email (probablemente el Modal tendra los datos para enviar hacía el controlador)
-                // formData.append("user_valid", "0");
-
-                // await create_user(formData)
-
-                // $form.current.reset();
                 setshowModal(true);
             } catch (error) {
                 if (error instanceof AxiosError) {
@@ -43,7 +57,6 @@ export default function SingUp() {
                     
 
                     if ($boxError.current && $spanError.current) {
-
                         setErrorsState(errors)
 
                         // $spanError.current.textContent = data;

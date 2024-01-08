@@ -1,5 +1,5 @@
-import Main from './components/main/Main'
-import Layout from './components/Layout/LayoutMain'
+import Layout from "./pages/Layout/LayoutMain";
+import Main from "./pages/main/Main";
 
 export default function App() {
   return(

@@ -1,7 +1,7 @@
 import React from "react"
 
 interface PropsLayout {
-    children: React.JSX.Element
+    children: React.ReactNode
 }
 
 export default function Layout({ children }: PropsLayout) {

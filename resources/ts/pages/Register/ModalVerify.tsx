@@ -11,7 +11,7 @@ function ModalVerify({
 }: {
     show: boolean;
     changeShow: Dispatch<SetStateAction<boolean>>;
-    changeAuth: Dispatch<SetStateAction<boolean>>;
+    changeAuth: Dispatch<SetStateAction<boolean | null>>;
 }) {
     const $dialog = useRef<HTMLDialogElement>(null);
     const $formTokenEmail = useRef<HTMLFormElement>(null);
@@ -37,12 +37,12 @@ function ModalVerify({
     const closeDialog = () => {
         if ($dialog.current) {
             changeShow(false);
-            // changeAuth(true);
+            changeAuth(true);
         }
     };
 
     const changeDivVerify = () => {
-        // generate_token_email(true);
+        generate_token_email(true);
         setShowInputToken(true);
     };
 

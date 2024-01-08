@@ -4,22 +4,18 @@ import axios, { AxiosError } from "axios";
 import Email from "../../../assets/email-img.png";
 import Password from "../../../assets/password-img.png";
 import { Navigate } from 'react-router-dom'
+import { getUser } from "../../services/ServicesGetUser";
+import Loading from "../../components/Loading";
 
 export default function Login() {
-    const [CSRF, setCSRF] = useState("");
-    const [Auth, setAuth] = useState(false);
-    const [showModal, setshowModal] = useState(false);
+    const [Auth, setAuth] = useState<boolean | null>(null);
+    const [Load, setLoad] = useState(true);
     const $form = useRef<HTMLFormElement>(null);
     const $boxError = useRef<HTMLDivElement>(null);
     const $spanError = useRef<HTMLSpanElement>(null);
 
     useEffect(() => {
-        const getCsrf = async () => {
-            const crsfJSON = await axios.get("/sanctum/csrf-cookie");
-            const data = crsfJSON.config.headers.get("X-XSRF-TOKEN") as string;
-            setCSRF(data);
-        };
-        getCsrf();
+        getUser(setLoad, setAuth)
         return () => {};
     }, []);
 
@@ -28,8 +24,14 @@ export default function Login() {
         return <Navigate to="/store" />
     }
 
+    if (Load) {
+
+        //! Posible error encontrado, al parecer se junta ambos estilos en el layout
+        return <Loading />;
+    }
+
     const dataValidation = async () => {
-        if ($form.current && CSRF) {
+        if ($form.current) {
             try {
                 const formDataValidation = new FormData($form.current);
                 const postValidation = await axios.post(
@@ -56,7 +58,6 @@ export default function Login() {
     };
 
     const hiddenBoxError = () => {
-        console.log("key");
         if ($boxError.current && $spanError.current) {
             $boxError.current.classList.add("hidden") 
             $spanError.current.textContent = ""
@@ -64,11 +65,8 @@ export default function Login() {
     }
 
     return (
-        <>
             <main
-                className={`flex justify-center items-center flex-col opacity-${
-                    showModal ? 0 : 100
-                }`}
+                className={`flex justify-center items-center flex-col`}
             >
                 <div className="bg-[#3d1a98] w-[89vw] h-[40vh] min-h-[250px] max-w-[24em] rounded-xl flex flex-col gap-8 md:h-[390px] sm:max-w-md">
                     <div className="mt-5">
@@ -129,7 +127,5 @@ export default function Login() {
                     </Link>
                 </span>
             </main>
-            {/* <ModalVerify show={showModal} changeShow={setshowModal} /> */}
-        </>
     );
 }

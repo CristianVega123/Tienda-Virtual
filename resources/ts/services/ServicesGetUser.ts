@@ -18,7 +18,11 @@ export const getUser = async (setLoad: Dispatch<SetStateAction<boolean>>, setAut
             `${url_server}${getUserUrl}`
         );
 
+
+        //TODO esta función también se usará para poder establecer un estado global
+
         setLoad(false);
+        setAuth(true)
     } catch (error) {
         if (error instanceof AxiosError) {
             let status = error.response?.status;

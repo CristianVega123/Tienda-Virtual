@@ -11,7 +11,7 @@ export const generate_token_email = async (valid: boolean) => {
     });
 };
 
-export const send_token_email = async (token: number, changeAuth: React.Dispatch<SetStateAction<boolean>>) => {
+export const send_token_email = async (token: number, changeAuth: React.Dispatch<SetStateAction<boolean | null>>) => {
     const validAuthEmail = await axios.post(`${url_server}${validtoken}`, {
         "token_valid": token
     })

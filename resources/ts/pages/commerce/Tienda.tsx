@@ -1,9 +1,11 @@
-import Layout from "../Layout/LayoutMain";
 import { useStateUser } from "../../store/StateGlobalShop";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
-import { getUser } from '../../services/ServicesGetUser'
+import { getUser } from "../../services/ServicesGetUser";
+import MainEcommerce from "./MainEcommerce";
+import Loading from "../../components/Loading";
+import Layout from "../Layout/LayoutMain";
 
 export default function Tienda() {
     const {
@@ -25,8 +27,8 @@ export default function Tienda() {
          */
 
         //TODO Todas las llamadas de apis lo estoy colocando en una función aparte para poder contorlar sus errores.
-        
-        getUser(setLoad, setAuth)
+
+        getUser(setLoad, setAuth);
     }, []);
 
     /**
@@ -39,7 +41,7 @@ export default function Tienda() {
     }
 
     if (Load) {
-        return <p className="text-black">Cargando</p>;
+        return <Loading /> 
     }
 
     /**
@@ -50,11 +52,12 @@ export default function Tienda() {
     const log_out = async () => {
         try {
             let data = await axios.post(
-                `${import.meta.env.VITE_APP_URL}/api/logout`,undefined,
+                `${import.meta.env.VITE_APP_URL}/api/logout`,
+                undefined
             );
             console.log(data);
 
-            setAuth(false)
+            setAuth(false);
         } catch (error) {}
         // if (data.status === 200) {
         //    setAuth(false)
@@ -63,18 +66,20 @@ export default function Tienda() {
 
     return (
         <>
-            <Layout>
-                <div>
-                    <span>{String(Auth)}</span>
-                    <span>{user_id}</span>
-                    <span>{user_name}</span>
-                    <span>{user_surname}</span>
-                    <span>{user_email}</span>
-                    <span>{user_isValid}</span>
-                    <span>{user_role}</span>
-                    <button onClick={log_out}>Salir</button>
-                </div>
-            </Layout>
+        <Layout>
+            <div>
+                <span>{String(Auth)}</span>
+                <span>{user_id}</span>
+                <span>{user_name}</span>
+                <span>{user_surname}</span>
+                <span>{user_email}</span>
+                <span>{user_isValid}</span>
+                <span>{user_role}</span>
+                <button onClick={log_out}>Salir</button>
+            </div>
+            <MainEcommerce />
+
+        </Layout>
         </>
     );
 }

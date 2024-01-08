@@ -4,8 +4,8 @@ import React from "react";
 import "./index.css";
 import "atropos/atropos.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Tienda from "./components/commerce/Tienda";
-import Register from "./components/Register/Register";
+import Tienda from "./pages/commerce/Tienda";
+import Register from "./pages/Register/Register";
 import axios from "axios";
 
 const root = createRoot(document.getElementById("app") as HTMLElement);
