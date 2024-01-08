@@ -5,7 +5,7 @@ import Password from "../../../assets/password-img.png";
 import { Link, Navigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import ModalVerify from "./ModalVerify";
-import { create_user } from '../../services/ServicesSingUp'
+import { sign_up } from '../../services/ServicesAuthUser'
 import Loading from "../../components/Loading";
 import { getUser } from "../../services/ServicesGetUser";
 
@@ -45,7 +45,7 @@ export default function SingUp() {
                 const formData = new FormData($form.current);
 
                 //? Servicio para crear el usuario
-                await create_user(formData)
+                await sign_up(formData)
 
                 setshowModal(true);
             } catch (error) {

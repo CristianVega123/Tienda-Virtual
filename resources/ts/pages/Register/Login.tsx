@@ -6,6 +6,7 @@ import Password from "../../../assets/password-img.png";
 import { Navigate } from 'react-router-dom'
 import { getUser } from "../../services/ServicesGetUser";
 import Loading from "../../components/Loading";
+import { log_in } from "../../services/ServicesAuthUser";
 
 export default function Login() {
     const [Auth, setAuth] = useState<boolean | null>(null);
@@ -34,14 +35,7 @@ export default function Login() {
         if ($form.current) {
             try {
                 const formDataValidation = new FormData($form.current);
-                const postValidation = await axios.post(
-                    "/api/login",
-                    formDataValidation,
-                );
-
-                if (postValidation.status === 200) {
-                   setAuth(true) 
-                }
+                await log_in(formDataValidation,setAuth)
             } catch (error) {
                 if (error instanceof AxiosError) {
                     $form.current.reset();

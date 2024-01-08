@@ -5,6 +5,8 @@ import { Dispatch, SetStateAction } from "react";
 const url_server = import.meta.env.VITE_APP_URL;
 const getUserUrl = "\\api\\user";
 
+//TODO Implementar una forma para que se guarde el estado a la par de que se haga esta consulta dentro del programa.
+
 /**
  *
  * @param setLoad Función para cmabiar la pantalla de carga

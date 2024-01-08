@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SendEmailValidationController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -23,38 +24,42 @@ Route::middleware("auth:sanctum")->get('/user', function (Request $request) {
 
 
 
+//! Autentificación del usuario
+
+Route::controller(AuthController::class)->group(function () {
+    /**
+     * ? Ruta con resources apis, que será acerca de los datos del usuario.
+     */
+    Route::post('/create_client', "create");
+
+    /**
+     * ? Controlador especifico para poder validar la session del usuario (que esta basada en el servicio de autentificación a vía cookies)
+     */
+    Route::post("/login",  "login");
+
+    /**
+     * ? Termina la session y la regenera para que se pueda logear de nuevo sin errores al anterior sesion
+     */
+    Route::post("/logout", "logout");
+});
 
 
-/**
- * ? Ruta con resources apis, que será acerca de los datos del usuario.
- */
+//! Verificación del Email
+Route::controller(SendEmailValidationController::class)->group(function () {
+    /**
+     * ? Ruta para crear un número que será enviado hacia su email para verficar el correo.
+     */
+    Route::post("/generated_validation", "generate_number");
 
-
-Route::post('/create_client', [AuthController::class, "create"]);
-
-/**
- * ? Controlador especifico para poder validar la session del usuario (que esta basada en el servicio de autentificación a vía cookies)
- */
-Route::post("/login", [AuthController::class, "login"]);
-
-/**
- * 
- */
-
- Route::post("/logout", [AuthController::class, "logout"]);
- 
+    /**
+     * ? Validacion de la clave númerica enviado al email del usuario.
+     */
+    Route::post("/validate_token_email", "validate_token");
+});
 
 
 
-/**
- * ? Ruta para crear un número que será enviado hacia su email para verficar el correo.
- */
-Route::post("/generated_validation", [SendEmailValidationController::class, "generate_number"]);
+//! Acciones del usuario (dependiendo del role)
+Route::controller(UserController::class)->group(function() {
 
-
-/**
- * ? Validacion de la clave númerica enviado al email del usuario.
- */
-
- Route::post("/validate_token_email", [SendEmailValidationController::class, "validate_token"] );
-
+})->middleware("auth:sanctum");

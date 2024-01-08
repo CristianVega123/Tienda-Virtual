@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { getUser } from "../../services/ServicesGetUser";
-import MainEcommerce from "./MainEcommerce";
 import Loading from "../../components/Loading";
 import Layout from "../Layout/LayoutMain";
 
@@ -77,7 +76,6 @@ export default function Tienda() {
                 <span>{user_role}</span>
                 <button onClick={log_out}>Salir</button>
             </div>
-            <MainEcommerce />
 
         </Layout>
         </>
