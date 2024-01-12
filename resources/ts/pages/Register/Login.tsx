@@ -7,6 +7,7 @@ import { Navigate } from 'react-router-dom'
 import { getUser } from "../../services/ServicesGetUser";
 import Loading from "../../components/Loading";
 import { log_in } from "../../services/ServicesAuthUser";
+import { SectionAdminSideBar } from "../../types/Enums";
 
 export default function Login() {
     const [Auth, setAuth] = useState<boolean | null>(null);
@@ -22,7 +23,7 @@ export default function Login() {
 
 
     if (Auth) {
-        return <Navigate to="/store" />
+        return <Navigate to={`/store/${SectionAdminSideBar.DASHBOARD}`} />
     }
 
     if (Load) {

@@ -4,32 +4,18 @@ namespace App\Policies;
 
 use App\Enums\UserRole;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function role(User $user): Response 
-    {
-        return $user->user_role == UserRole::ADMIN->value ? Response::allow() : Response::denyWithStatus(401);
-    }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, User $model): bool
-    {
-        //
-    }
-
+    use HandlesAuthorization;
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user)
     {
-        //
+        return $user->user_role === "Admin";
     }
 
     /**

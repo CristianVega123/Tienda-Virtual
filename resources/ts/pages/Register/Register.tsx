@@ -1,4 +1,4 @@
-import Layout from "../Layout/LayoutMain";
+import Layout from "../../components/Layout/LayoutMain";
 import Login from "../Register/Login";
 import Singup from "../Register/SingUp";
 import { useParams } from "react-router-dom";

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->float("prod_price");
             $table->integer("prod_units");
             $table->text("prod_description");
+            $table->text("prod_url_img");
             $table->foreignId("category_id")->nullable()->constrained("category", "category_id")->cascadeOnDelete();
 
         });

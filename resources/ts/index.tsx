@@ -7,6 +7,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Tienda from "./pages/commerce/Tienda";
 import Register from "./pages/Register/Register";
 import axios from "axios";
+import Loading from "./components/Loading";
+import NotFound from "./components/NotFound";
 
 const root = createRoot(document.getElementById("app") as HTMLElement);
 
@@ -28,7 +30,7 @@ const router = createBrowserRouter([
         element: <App />,
     },
     {
-        path: "/store",
+        path: "/store/:section",
         element: <Tienda />,
     },
     {
@@ -40,10 +42,10 @@ const router = createBrowserRouter([
             },
         ],
     },
-    // {
-    //     path: "/verifyEmail",
-    //     element: <ValidationEmail />
-    // }
+    {
+        path: "*",
+        element: <NotFound />
+    }
 ]);
 
 root.render(

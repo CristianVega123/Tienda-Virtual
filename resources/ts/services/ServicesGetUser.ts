@@ -25,6 +25,8 @@ export const getUser = async (setLoad: Dispatch<SetStateAction<boolean>>, setAut
 
         setLoad(false);
         setAuth(true)
+
+        return user;
     } catch (error) {
         if (error instanceof AxiosError) {
             let status = error.response?.status;

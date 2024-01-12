@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SendEmailValidationController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -60,6 +60,12 @@ Route::controller(SendEmailValidationController::class)->group(function () {
 
 
 //! Acciones del usuario (dependiendo del role)
-Route::controller(UserController::class)->group(function() {
+Route::prefix("admin")->controller(AdminController::class)->group(function() {
 
-})->middleware("auth:sanctum");
+    /**
+     *? Ruta para guardar las imagenes 
+     */
+    Route::post("/store_products", "store");
+
+
+});

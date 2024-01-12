@@ -28,6 +28,8 @@ export const sign_up = async (
 export const log_in =async (FormData:FormData, change_auth: React.Dispatch<SetStateAction<boolean | null>>) => {
    try {
      const logUser = await axios.post(`${url_server}${LogInURL}`, FormData);
+     console.log(logUser);
+     
      change_auth(true);
    } catch (error) {
     
@@ -35,6 +37,13 @@ export const log_in =async (FormData:FormData, change_auth: React.Dispatch<SetSt
 }
 
 
-export const log_out = async () => {
-    
-}
+export const log_out = async (change_auth: React.Dispatch<SetStateAction<boolean | null>>) => {
+        try {
+            let data = await axios.post(
+                `${import.meta.env.VITE_APP_URL}/api/logout`,
+                undefined
+            );
+
+            change_auth(false);
+        } catch (error) {}
+    };
