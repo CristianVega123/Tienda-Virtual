@@ -1,4 +1,4 @@
-import React, { SetStateAction } from "react";
+import React, { SetStateAction, useEffect } from "react";
 import LayoutAdmin from "../../../components/Layout/LayoutAdmin";
 import { ContextAdminPage } from "../../../Context/ContextAdminPage";
 import { useParams } from "react-router-dom";
@@ -7,12 +7,18 @@ import { SectionAdminSideBar } from "../../../types/Enums";
 import ProductsAdmin from "../../../components/Admin/ProductsAdmin";
 import UsersAdmin from "../../../components/Admin/UsersAdmin";
 import NotFound from "../../../components/NotFound";
+import Navbar from "../../../components/Admin/Navbar";
 
 function AdminPage({
     changeAuth,
 }: {
     changeAuth: React.Dispatch<SetStateAction<boolean | null>>;
 }) {
+
+  useEffect(() => {
+    document.title = "Panel de control"
+  })
+  
 
   //? Posibles section dentro de la página
 
@@ -40,6 +46,7 @@ function AdminPage({
               changeAuth,
               section
             }}>
+              {/* <Navbar /> */}
               {SectionRender}
             </ContextAdminPage>
         </LayoutAdmin>

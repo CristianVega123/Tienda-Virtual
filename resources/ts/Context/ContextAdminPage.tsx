@@ -3,10 +3,11 @@ import LateralMenu from "../components/Admin/LateralMenu";
 import Navbar from "../components/Admin/Navbar";
 import { SectionAdminSideBar } from "../types/Enums";
 
-
 interface StateAdminPage {
     changeAuth?: React.Dispatch<SetStateAction<boolean | null>>;
-    section ?: SectionAdminSideBar 
+    section?: SectionAdminSideBar;
+    setShowLateralMenu: React.Dispatch<SetStateAction<boolean>>;
+    showLateralMenu: boolean;
 }
 
 export const AdminPageContext = createContext<StateAdminPage>(
@@ -22,18 +23,19 @@ export function ContextAdminPage({
         [prop: string]: any;
     };
 }) {
-    const $divMain = useRef<HTMLDivElement>(null);
-
-
+    const [showLateralMenu, setShowLateralMenu] = useState(false);
 
     return (
         <AdminPageContext.Provider
             value={{
                 ...value,
+                setShowLateralMenu,
+                showLateralMenu,
             }}
         >
-            <div ref={$divMain}  className="w-full h-[100vh] grid grid-cols-[320px_1fr] gap-6">
+            <div className="w-full h-[100vh]  flex  gap-4">
                 <LateralMenu />
+
                 {children}
             </div>
         </AdminPageContext.Provider>

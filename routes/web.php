@@ -18,12 +18,12 @@ use function PHPUnit\Framework\isNull;
 
 // Rendeiza el panel central para poder ver los productos 
 //? O si no tienes cuenta, redirigirte para poder crear una cuenta
-Route::get("/", fn () =>  view("index", ["title" => "Tienda Virtual"]));
+Route::get("/", fn () =>  view("index"));
 
 Route::get("/register/{modeRegister?}", function (?string $modeRegister = null) {
-    return view("index", ["title" => "Acceso a la tienda"]);
+    return view("index");
 });
 
 Route::get("/store/{section?}", function (?string $section = null) {
-    return view('index', ["title" => "Productos"]);
+    return view('index');
 });

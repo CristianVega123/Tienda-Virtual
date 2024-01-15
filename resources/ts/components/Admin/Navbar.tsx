@@ -9,17 +9,13 @@ function Navbar({
 }: {
     // change_background: (type: "show" | "hidden") => void 
 }) {
-    const { setShowLateralMenu, changeAuth, change_background } = useContext(ProviderContextAdmin);
+    const { setShowLateralMenu, changeAuth } = useContext(ProviderContextAdmin);
 
     return (
-        <nav className="p-3 z-0 flex justify-between items-center">
+        <nav className="p-3 z-0 flex justify-between items-center self-start w-full">
             <button
                 className="bg-light-primary-color w-max p-2 rounded-md hover:bg-primary-color"
                 onClick={() => {
-                    if (change_background) {
-                        
-                        change_background("show")
-                    }
                     setShowLateralMenu(true);
                 }}
             >

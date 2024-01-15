@@ -2,7 +2,8 @@ import React from 'react'
 
 function DashboardAdmin() {
   return (
-    <div>DashboardAdmin
+    <div>
+      DashboardAdmin 
         Jajaj si funciono
     </div>
   )

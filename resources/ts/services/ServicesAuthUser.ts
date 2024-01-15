@@ -1,11 +1,11 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios from "axios";
 import { StateUser } from "../types/InterfaceState";
 import React, { SetStateAction } from "react";
 
 const url_server = import.meta.env.VITE_APP_URL;
 const SingUpURL = "\\api\\create_client";
 const LogInURL = "\\api\\login";
-
+const LogOutURL = "\\api\\logout";
 
 
 //TODO Devolver un array de errores para poder tratarlos o mostrarlo en la pantalla, posiblemente cree una clase para manejar los errores.
@@ -18,29 +18,24 @@ const LogInURL = "\\api\\login";
  */
 export const sign_up = async (
     data: FormData
-): Promise<AxiosResponse<StateUser, any> | AxiosError<unknown, any>>  => {
+) => {
     const user = await axios.post(`${url_server}${SingUpURL}`, data);
-    console.log(user);
-
-    return user 
 };
 
-export const log_in =async (FormData:FormData, change_auth: React.Dispatch<SetStateAction<boolean | null>>) => {
-   try {
+export const log_in =async (FormData:FormData, change_auth: React.Dispatch<SetStateAction<boolean | null>>) : Promise<any> => {
      const logUser = await axios.post(`${url_server}${LogInURL}`, FormData);
      console.log(logUser);
      
      change_auth(true);
-   } catch (error) {
-    
-   } 
+
+     return logUser
 }
 
 
 export const log_out = async (change_auth: React.Dispatch<SetStateAction<boolean | null>>) => {
         try {
             let data = await axios.post(
-                `${import.meta.env.VITE_APP_URL}/api/logout`,
+                `${import.meta.env.VITE_APP_URL}${LogOutURL}`,
                 undefined
             );
 

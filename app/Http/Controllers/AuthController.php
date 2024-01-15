@@ -65,7 +65,9 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'error' => 'Por favor, revisar si el email o contraseña son correctas.'
+            'errors' => [
+                "fail" => ["Tu email o contraseña esta incorrecta." ]
+            ]
         ], 401);
     }
 

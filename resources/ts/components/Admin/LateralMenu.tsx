@@ -6,13 +6,13 @@ import { SectionAdminSideBar } from "../../types/Enums";
 import { log_out } from "../../services/ServicesAuthUser";
 
 function LateralMenu() {
-    const { section, changeAuth } =
+    const { section, changeAuth  } =
         useContext(ProviderContextAdmin);
 
 
     return (
         <aside
-            className={` bg-lateral-color top-0 h-full w-80 z-50 flex flex-col gap-20  
+            className={`hidden md:bg-lateral-color md:top-0 sm:h-full md:w-80 sm:z-50 md:flex sm:flex-col md:gap-20  
     `}
         >
             <div className="flex justify-between align-baseline w-full p-4">
