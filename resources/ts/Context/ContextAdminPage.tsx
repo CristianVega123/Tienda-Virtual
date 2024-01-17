@@ -33,10 +33,10 @@ export function ContextAdminPage({
                 showLateralMenu,
             }}
         >
-            <div className="w-full h-[100vh]  flex  gap-4">
+            <div className="w-full h-[100vh]  flex  gap-11">
                 <LateralMenu />
-
-                {children}
+                <div className="flex flex-col w-full">
+                    {children}</div>
             </div>
         </AdminPageContext.Provider>
     );

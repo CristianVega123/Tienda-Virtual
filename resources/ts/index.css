@@ -13,9 +13,6 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-input {
-    color: black;
-}
 
 input[type="number"] {
   -moz-appearance: textfield;
@@ -24,9 +21,9 @@ input[type="number"] {
 :root {
     --primary-dark-color: #230e67;
     --primary-color: #481dba;
-    --light-primary-color: #7858fa;
+    --light-primary-color: #5e47ba;
     --white-mixed-primary-color: #bab3ff;
-    --lateral-color: #161a3b;
+    --lateral-color: #122258;
 }
 
 

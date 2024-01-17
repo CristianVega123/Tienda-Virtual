@@ -46,7 +46,7 @@ function AdminPage({
               changeAuth,
               section
             }}>
-              {/* <Navbar /> */}
+              <Navbar />
               {SectionRender}
             </ContextAdminPage>
         </LayoutAdmin>

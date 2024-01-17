@@ -1,9 +1,10 @@
-import React from 'react'
+import React from "react";
 
 function UsersAdmin() {
-  return (
-    <div>UsersAdmin</div>
-  )
+    return (
+        <div>
+        </div>
+    );
 }
 
-export default UsersAdmin
+export default UsersAdmin;

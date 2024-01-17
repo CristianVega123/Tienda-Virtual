@@ -14,7 +14,8 @@ export default {
         "primary-color": "var(--primary-color)",
         "light-primary-color": "var(--light-primary-color)",
         "white-mixed-primary-color": "var(--white-mixed-primary-color)",
-        "lateral-color" : "var(--lateral-color)"
+        "lateral-color" : "var(--lateral-color)",
+        "text-primary-color" : ""
       }
     },
   },
