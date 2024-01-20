@@ -6,6 +6,7 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@types/node": "^20.11.5",
         "@vitejs/plugin-react": "^4.2.0",
         "autoprefixer": "^10.4.16",
         "axios": "^1.6.1",
@@ -15,9 +16,11 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@nextui-org/react": "^2.2.9",
         "@types/react": "^18.2.39",
         "@types/react-dom": "^18.2.17",
         "atropos": "^2.0.2",
+        "framer-motion": "^10.18.0",
         "localforage": "^1.10.0",
         "match-sorter": "^6.3.1",
         "react": "^18.2.0",

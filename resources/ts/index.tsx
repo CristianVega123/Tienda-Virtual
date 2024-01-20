@@ -6,9 +6,8 @@ import "atropos/atropos.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Tienda from "./pages/commerce/Tienda";
 import Register from "./pages/Register/Register";
-import axios from "axios";
-import Loading from "./components/Loading";
 import NotFound from "./components/NotFound";
+import { NextUIProvider } from "@nextui-org/react";
 
 const root = createRoot(document.getElementById("app") as HTMLElement);
 
@@ -44,12 +43,16 @@ const router = createBrowserRouter([
     },
     {
         path: "*",
-        element: <NotFound />
-    }
+        element: <NotFound />,
+    },
 ]);
+
 
 root.render(
     <React.StrictMode>
-        <RouterProvider router={router} />
+        <NextUIProvider>
+            <RouterProvider router={router} />
+
+        </NextUIProvider>
     </React.StrictMode>
 );
