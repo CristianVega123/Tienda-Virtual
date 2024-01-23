@@ -1,13 +1,16 @@
-import { SetStateAction, createContext, useState, useRef } from "react";
+import { SetStateAction, createContext, useState, useEffect } from "react";
 import LateralMenu from "../components/Admin/LateralMenu";
-import Navbar from "../components/Admin/Navbar";
 import { SectionAdminSideBar } from "../types/Enums";
+import { show_product } from "../services/SericesUsers";
+import { AxiosResponse } from "axios";
 
 interface StateAdminPage {
     changeAuth?: React.Dispatch<SetStateAction<boolean | null>>;
     section?: SectionAdminSideBar;
     setShowLateralMenu: React.Dispatch<SetStateAction<boolean>>;
     showLateralMenu: boolean;
+    products: any;
+    setProducts: React.Dispatch<React.SetStateAction<AxiosResponse<any,any>[]>>;
 }
 
 export const AdminPageContext = createContext<StateAdminPage>(
@@ -24,6 +27,12 @@ export function ContextAdminPage({
     };
 }) {
     const [showLateralMenu, setShowLateralMenu] = useState(false);
+    const [products, setProducts] = useState<AxiosResponse[]>([]);
+    useEffect(() => {
+        if (products.length === 0) {
+            show_product().then((result) => setProducts(result.data));
+        }
+    });
 
     return (
         <AdminPageContext.Provider
@@ -31,12 +40,13 @@ export function ContextAdminPage({
                 ...value,
                 setShowLateralMenu,
                 showLateralMenu,
+                products,
+                setProducts,
             }}
         >
             <div className="w-full h-[100vh]  flex  gap-11">
                 <LateralMenu />
-                <div className="flex flex-col w-full gap-16">
-                    {children}</div>
+                <div className="flex flex-col w-full gap-16">{children}</div>
             </div>
         </AdminPageContext.Provider>
     );

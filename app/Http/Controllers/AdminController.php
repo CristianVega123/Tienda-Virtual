@@ -36,13 +36,13 @@ class AdminController extends Controller
         $portionProduct = $request->safe()->except(['product_image']);
 
         $categoryId = $portionProduct["category_id"];
-        
+
         $name_folder = DB::table("category")->where("category_id", $categoryId)->value("category_name");
 
         $UploadFileURL = cloudinary()->upload($fileValid["product_image"]->getRealPath(), [
-            "folder" => $name_folder 
+            "folder" => $name_folder
         ])->getSecurePath();
-        
+
 
         $product = Product::create([
             'prod_name' => $portionProduct["product_name"],
@@ -52,19 +52,19 @@ class AdminController extends Controller
             'prod_url_img' => $UploadFileURL,
             'category_id' => $categoryId,
         ]);
-        
+
         return response()->json([
             "url" => $UploadFileURL,
-            'product' => $product, 
+            'product' => $product,
         ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show()
     {
-        //
+        return Product::all();
     }
 
     /**

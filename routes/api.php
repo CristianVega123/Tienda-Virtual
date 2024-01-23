@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SendEmailValidationController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -60,12 +61,17 @@ Route::controller(SendEmailValidationController::class)->group(function () {
 
 
 //! Acciones del usuario (dependiendo del role)
-Route::prefix("admin")->controller(AdminController::class)->group(function() {
+Route::prefix("admin")->controller(AdminController::class)->group(function () {
 
     /**
      *? Ruta para guardar las imagenes 
      */
     Route::post("/store_products", "store");
+});
 
-
+Route::prefix("users")->controller(UserController::class)->group(function () {
+    /**
+     * ? Recuperamos todos los productos
+     */
+    Route::get("/products", "show_product");
 });

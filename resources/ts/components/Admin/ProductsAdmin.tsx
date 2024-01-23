@@ -1,5 +1,6 @@
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import AddProduct from "./Product/AddProduct";
+import ShowProducts from "./Product/ShowProducts";
 
 /**
  * ? Creación del componente para crear productos
@@ -20,7 +21,7 @@ function ProductsAdmin() {
                     aria-label="Accordion 2"
                     title="Show Productos"
                 >
-
+                    <ShowProducts />
                 </AccordionItem>
 
                 <AccordionItem

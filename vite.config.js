@@ -12,10 +12,10 @@ export default defineConfig({
         react()
     ],
     resolve: {
-        alias: {
-            "@/" : path.resolve(__dirname, './resources/ts/'),
-            "@components": path.resolve(__dirname, './resources/ts/components')
+        // alias: {
+        //     "@/" : path.resolve(__dirname, './resources/ts/'),
+        //     "@components": path.resolve(__dirname, './resources/ts/components')
             
-        }
+        // }
     }
 });
