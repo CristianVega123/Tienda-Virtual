@@ -3,14 +3,23 @@ import LateralMenu from "../components/Admin/LateralMenu";
 import { SectionAdminSideBar } from "../types/Enums";
 import { show_product } from "../services/SericesUsers";
 import { AxiosResponse } from "axios";
+import { ProductsData } from "../types/typesAdmins";
+
+
+
+/**
+ * Envuelve toda la pagina para que tenga un contexto sobre sus datos.
+ */
 
 interface StateAdminPage {
     changeAuth?: React.Dispatch<SetStateAction<boolean | null>>;
     section?: SectionAdminSideBar;
     setShowLateralMenu: React.Dispatch<SetStateAction<boolean>>;
     showLateralMenu: boolean;
-    products: any;
-    setProducts: React.Dispatch<React.SetStateAction<AxiosResponse<any,any>[]>>;
+    products: ProductsData[];
+    setProducts: React.Dispatch<
+        React.SetStateAction<ProductsData[]>
+    >;
 }
 
 export const AdminPageContext = createContext<StateAdminPage>(
@@ -27,12 +36,16 @@ export function ContextAdminPage({
     };
 }) {
     const [showLateralMenu, setShowLateralMenu] = useState(false);
-    const [products, setProducts] = useState<AxiosResponse[]>([]);
+    const [products, setProducts] = useState<ProductsData[]>([]);
     useEffect(() => {
-        if (products.length === 0) {
-            show_product().then((result) => setProducts(result.data));
+        let data: any 
+        if (products) {
+            data= show_product().then(async (result) => {
+                let json = await result.json();
+                setProducts(json);
+            });
         }
-    });
+    },[]);
 
     return (
         <AdminPageContext.Provider
@@ -44,7 +57,7 @@ export function ContextAdminPage({
                 setProducts,
             }}
         >
-            <div className="w-full h-[100vh]  flex  gap-11">
+            <div className="w-full h-[100vh]  flex  gap-11 h-auto">
                 <LateralMenu />
                 <div className="flex flex-col w-full gap-16">{children}</div>
             </div>

@@ -6,8 +6,13 @@ const apiUsersProduct = "\\api\\users\\products";
 /**
  * ! Este servicio puede ser usado tanto como para admins como para usuarios normales
  */
-export const show_product = async () => {
-    const products = await axios.get(`${url_server}${apiUsersProduct}`);
+export const show_product = async (signal?: AbortSignal, cursor ?: string) => {
+    const products = await fetch(
+        cursor || `${url_server}${apiUsersProduct}`,
+        {
+            signal,
+        }
+    );
 
-    return products
+    return products;
 };

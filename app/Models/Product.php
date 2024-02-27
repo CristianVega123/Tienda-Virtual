@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $table = "products";    
+    protected $table = "products";
 
     protected $primaryKey = "prod_id";
 
@@ -19,9 +19,22 @@ class Product extends Model
         'prod_price',
         'prod_units',
         'prod_description',
-        'prod_url_img',
+        'category_id'
+    ];
+
+    protected $hidden =  [
         'category_id'
     ];
 
     public $timestamps = false;
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function medias()
+    {
+        return $this->belongsTo(Media::class, 'media_id');
+    }
 }

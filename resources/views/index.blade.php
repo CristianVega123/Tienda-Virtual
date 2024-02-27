@@ -8,8 +8,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400;700&display=swap" rel="stylesheet">
         <title></title>
     </head>
-    <body>
-        <div id="app" class="">
+    <body class="h-auto">
+        <div id="app" class="h-auto">
         </div>
 
         @viteReactRefresh

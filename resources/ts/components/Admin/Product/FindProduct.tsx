@@ -1,32 +1,28 @@
-import { useState, useContext } from "react";
 import {
-    Table,
-    TableHeader,
-    TableColumn,
-    TableBody,
-    TableRow,
-    TableCell,
-    getKeyValue,
-    Dropdown,
-    DropdownTrigger,
     Button,
-    DropdownMenu,
+    Dropdown,
     DropdownItem,
-    useDisclosure,
-    Modal,
-    ModalFooter,
-    ModalBody,
-    ModalHeader,
-    ModalContent,
+    DropdownMenu,
+    DropdownTrigger,
     Input,
-    Spinner,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    Table,
+    TableBody,
+    TableCell,
+    TableColumn,
+    TableHeader,
+    TableRow,
+    getKeyValue,
+    useDisclosure,
 } from "@nextui-org/react";
-import { useInfiniteScroll } from "@nextui-org/use-infinite-scroll";
-import { useAsyncList } from "@react-stately/data";
-import { AdminPageContext } from "./../../../Context/ContextAdminPage";
-import { ModalProductDataAction } from "./../../../types/typesAdmins";
+import { useContext, useState } from "react";
+import { AdminPageContext } from "../../../Context/ContextAdminPage";
+import { ModalProductDataAction, ProductsData } from "../../../types/typesAdmins";
 import { delete_product_admin } from "../../../services/ServicesAdmin";
-import { show_product } from "../../../services/SericesUsers";
 
 const columns = [
     {
@@ -59,60 +55,37 @@ const columns = [
     },
 ];
 
-export default function ShowProducts() {
-    const [isLoading, setIsLoading] = useState(true);
-    const [hasMore, setHasMore] = useState(false);
-    const { setProducts, products } = useContext(AdminPageContext);
+function FindProduct() {
+    const { products } = useContext(AdminPageContext);
+    const [productsFind, setProductsFind] = useState<ProductsData[]>([]);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [modalDataAction, setmodalDataAction] =
         useState<ModalProductDataAction>({} as ModalProductDataAction);
 
-    let list = useAsyncList({
-        async load({ signal, cursor }) {
-            
-            // If no cursor is available, then we're loading the first page.
-            if (cursor) {
-                setIsLoading(false);
-            }
-            // Otherwise, the cursor is the next URL to load, as returned from the previous page.
-            const res = await show_product(signal, cursor);
-            let json = await res.json();
-            if (res) {
-                setIsLoading(false)           
-                if (!(json.length === products.length) ) {
-                    setProducts(json)
-                } else {
-                    console.log("same length");
-                    
-                }
-            }
-            
-            setHasMore(json.next !== null);
-
-            return {
-                items: json,
-                cursor: json.next,
-            };
-        },
-    });
-
-    const [loaderRef, scrollerRef] = useInfiniteScroll({
-        hasMore,
-        onLoadMore: list.loadMore,
-    });
+    const valueChange = (value: string) => {
+        let valueFind = products.filter((product) =>
+            product.prod_name.includes(value)
+        );
+        if (value === "" ) {
+           setProductsFind([]) 
+        } else {
+            setProductsFind([...valueFind])
+        }
+    };
 
     return (
         <>
-            <Table
-                layout="auto"
-                isHeaderSticky
-                aria-label="Example table with infinite pagination"
-                baseRef={scrollerRef}
-                classNames={{
-                    base: "max-h-[520px] overflow-scroll",
-                    table: "min-h-[400px]",
-                }}
-            >
+            <nav className="flex justify-end">
+                <div className="w-[300px] ">
+                    <Input
+                        label="Products"
+                        size="sm"
+                        variant="faded"
+                        onValueChange={valueChange}
+                    />
+                </div>
+            </nav>
+            <Table aria-label="Example static collection table">
                 <TableHeader columns={columns}>
                     {(column) => (
                         <TableColumn key={column.key}>
@@ -120,20 +93,21 @@ export default function ShowProducts() {
                         </TableColumn>
                     )}
                 </TableHeader>
-                <TableBody
-                    items={list.items}
-                    isLoading={isLoading}
-                    loadingContent={<Spinner color="white" />}
-                >
-                    {(item: any) => {
-                        // console.log(item);
-                        let index = item.prod_id;
-                        console.log(index);
-
-                        return (
-                            <TableRow key={index}>
-                                {(columnKey) => {
-
+                <TableBody items={productsFind}>
+                    {productsFind.length === 0 ? (
+                        <TableRow key="1">
+                            <TableCell>{null}</TableCell>
+                            <TableCell>{null}</TableCell>
+                            <TableCell>{null}</TableCell>
+                            <TableCell>{null}</TableCell>
+                            <TableCell>{null}</TableCell>
+                            <TableCell>{null}</TableCell>
+                            <TableCell>{null}</TableCell>
+                        </TableRow>
+                    ) : (
+                        (item) => (
+                            <TableRow key={item.prod_id}>
+                                {(columnKey)=> {
                                     if (columnKey === "p_action") {
                                         return (
                                             <TableCell>
@@ -167,7 +141,12 @@ export default function ShowProducts() {
                                                                 delete_product_admin(
                                                                     item.prod_id
                                                                 );
-                                                                list.reload()
+
+                                                                let newproduct = products.filter(product => product.prod_id !== item.prod_id)
+
+                                                                    console.log(newproduct);
+                                                                    
+                                                                // setProducts(newproduct)
                                                             }}
                                                         >
                                                             Delete
@@ -178,18 +157,12 @@ export default function ShowProducts() {
                                         );
                                     }
 
-                                    return (
-                                        <TableCell>
-                                            {getKeyValue(item, columnKey)}
-                                        </TableCell>
-                                    );
-                                }}
+                                return (<TableCell>{getKeyValue(item, columnKey)}</TableCell>)} }
                             </TableRow>
-                        );
-                    }}
+                        )
+                    )}
                 </TableBody>
             </Table>
-
             <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
                     {(onClose) => (
@@ -245,3 +218,5 @@ export default function ShowProducts() {
         </>
     );
 }
+
+export default FindProduct;

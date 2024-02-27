@@ -67,6 +67,9 @@ Route::prefix("admin")->controller(AdminController::class)->group(function () {
      *? Ruta para guardar las imagenes 
      */
     Route::post("/store_products", "store");
+
+
+    Route::delete("/delete_products/{id}", "destroy");
 });
 
 Route::prefix("users")->controller(UserController::class)->group(function () {

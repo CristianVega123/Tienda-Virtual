@@ -8,3 +8,9 @@ export enum SectionAdminSideBar {
     USER = "user",
     PRODUCTS = "products"
 }
+
+export enum ModalAction {
+    DELETE = "Delete",
+    UPDATE = "Update",
+    
+}

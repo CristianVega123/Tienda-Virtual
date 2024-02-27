@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+
 
 class UserController extends Controller
 {
@@ -13,6 +13,17 @@ class UserController extends Controller
      */
     public function show_product()
     {
-        return Product::all();
+        // $products = DB::table("products")
+        //     ->join("category", 'category.category_id', '=', 'products.category_id')
+        //     ->select("products.prod_id", "products.prod_name" ,"products.prod_price", "products.prod_units", "products.prod_description","products.prod_url_img", 'category.category_name')
+        //     ->get();
+
+        $collect_products = collect();
+        $products = Product::with('category')->get();
+
+        // foreach ($variable as $key => $value) {
+        //     # code...
+        // }
+        return $products;
     }
 }

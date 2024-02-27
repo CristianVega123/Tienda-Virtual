@@ -2,21 +2,16 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserRequest extends FormRequest
+class UpdateProductRequest extends FormRequest
 {
-
-
-    protected $stopOnFirstFailure = true;
-
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return $this->user()->can("create", $this->user());
+        return false;
     }
 
     /**
@@ -27,11 +22,12 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_image' => 'required|image',
-            'product_name' => 'required|string|max:100|unique:App\\Models\\Product,prod_name',
-            'product_price' => 'required|decimal:1,2',
-            'product_units' => 'required|integer',
+            'prod_id' => 'required|numeric',
+            'product_name' => 'string|max:100|unique:App\\Models\\Product,prod_name',
+            'product_price' => 'decimal:1,2',
+            'product_units' => 'integer',
             'product_description' => 'nullable|string',
+            'product_image' => 'image',
             'category_id' => 'required|numeric'
         ];
     }

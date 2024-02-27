@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
+use App\Models\Media;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -25,7 +26,7 @@ class AdminController extends Controller
      * Store a newly created resource in storage.
      * ? Acá el ADMIN debe crear los recursos que se mostrará dentro de la tienda.
      */
-    public function store(StoreUserRequest $request, Product $product)
+    public function store(StoreProductRequest $request, Product $product)
     {
 
         //* El archivo que manda el cliente
@@ -37,11 +38,12 @@ class AdminController extends Controller
 
         $categoryId = $portionProduct["category_id"];
 
+        //? Los carpetas donde se almacenará las imagenes están nombradas con los nombres que están almacenados en la tabla category. 
         $name_folder = DB::table("category")->where("category_id", $categoryId)->value("category_name");
 
         $UploadFileURL = cloudinary()->upload($fileValid["product_image"]->getRealPath(), [
             "folder" => $name_folder
-        ])->getSecurePath();
+        ]);
 
 
         $product = Product::create([
@@ -49,12 +51,22 @@ class AdminController extends Controller
             'prod_price' => $portionProduct["product_price"],
             'prod_units' => $portionProduct["product_units"],
             'prod_description' => $portionProduct["product_description"],
-            'prod_url_img' => $UploadFileURL,
             'category_id' => $categoryId,
         ]);
 
+
+        $media = Media::create([
+            'prod_id' => $product->prod_id, 
+            'public_id' => $UploadFileURL->getPublicId(), 
+            'resource_type' =>$UploadFileURL->getFileType(), 
+            'url_img' => $UploadFileURL->getPath(), 
+            'url_img_secure' => $UploadFileURL->getSecurePath(), 
+            'original_filename' =>$UploadFileURL->getOriginalFileName(), 
+            'asset_folder' => $name_folder,
+        ]);
+
         return response()->json([
-            "url" => $UploadFileURL,
+            "media" => $media,
             'product' => $product,
         ]);
     }
@@ -78,7 +90,7 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateProductRequest $request, User $user)
     {
         //
     }
@@ -86,8 +98,16 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(Product $product, Request $request, $id)
     {
-        //
+        if(!$request->user()->can('delete', $request->user())){
+            abort(403);
+        }
+        // cloudinary()->destroy();
+        
+
+        Product::destroy($id);
+        
+        return response("Success destroy", 200);
     }
 }

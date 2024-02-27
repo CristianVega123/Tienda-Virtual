@@ -24,7 +24,7 @@ function AddProduct() {
         >
             <article className="md:flex md:flex-col   gap-5">
                 <div className="md:flex md:w-full md:gap-6 justify-between items-baseline">
-                    <span className="text-[20px]">Nombre del producto</span>
+                    <span className="text-[18px]">Nombre del producto</span>
                     <input
                         type="text"
                         name="product_name"
@@ -36,6 +36,7 @@ function AddProduct() {
                     <input
                         type="number"
                         name="product_price"
+                        step={".01"}
                         id=""
                         className="rounded-md p-2 bg-[#23262f]"
                     />
@@ -65,7 +66,7 @@ function AddProduct() {
                     <select
                         name="category_id"
                         id=""
-                        className="text-black rounded-md p-2 bg-[#23262f] text-white"
+                        className="rounded-md p-2 bg-[#23262f] text-white"
                     >
                         <option value="1">Technology</option>
                         <option value="2">Smartphone</option>

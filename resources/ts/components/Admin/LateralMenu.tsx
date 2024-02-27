@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { AdminPageContext as ProviderContextAdmin } from "../../Context/ContextAdminPage";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { SectionAdminSideBar } from "../../types/Enums";
 
 function LateralMenu() {
@@ -8,7 +8,7 @@ function LateralMenu() {
 
     return (
         <aside
-            className={`hidden md:bg-lateral-color md:top-0 sm:h-full md:w-[30%] md:min-w-[215px] md:max-w-[255px] md:flex md:flex-col  md:gap-20  
+            className={`hidden md:bg-lateral-color md:top-0 sm:h-[100vh] sticky top-0 lg:w-[30%] lg:min-w-[235px] lg:max-w-[255px] xl:flex lg:flex-col  md:gap-20  
     `}
         >
             <div className="flex justify-between align-baseline w-full p-4">
