@@ -1,6 +1,8 @@
 import React, { useRef } from "react";
 // import { store_admin } from "@/services/ServicesAdmin";
-import { store_admin } from '../../../services/ServicesAdmin'
+import { store_admin } from "../../../services/ServicesAdmin";
+import { Textarea, Input } from "@nextui-org/react";
+
 
 function AddProduct() {
     const $form = useRef<HTMLFormElement>(null);
@@ -8,7 +10,6 @@ function AddProduct() {
     const manage_informacion_form = () => {
         if ($form.current) {
             const formData = new FormData($form.current);
-
             store_admin(formData);
         }
     };
@@ -18,47 +19,36 @@ function AddProduct() {
             ref={$form}
             onSubmit={(event) => {
                 event.preventDefault();
-                manage_informacion_form()
+                manage_informacion_form();
+
+                $form.current?.reset();
             }}
             className="mt-6 md:flex flex-wrap md:w-[90%] md:justify-between"
         >
             <article className="md:flex md:flex-col   gap-5">
                 <div className="md:flex md:w-full md:gap-6 justify-between items-baseline">
                     <span className="text-[18px]">Nombre del producto</span>
-                    <input
-                        type="text"
-                        name="product_name"
-                        className="rounded-md p-2 bg-[#23262f]"
-                    />
+                    <Input type="text" label="Nombre" name="product_name" placeholder="Coloque el nombre del producto" />
                 </div>
                 <div className="md:flex md:w-full md:gap-6 md:justify-between">
                     <span className="text-[20px]"> Precio del Producto</span>
-                    <input
-                        type="number"
-                        name="product_price"
-                        step={".01"}
-                        id=""
-                        className="rounded-md p-2 bg-[#23262f]"
-                    />
+                    <Input type="number" label="Precio"  name="product_price" step={".01"} placeholder="Coloque el precio de producto" />
+                    
                 </div>
                 <div className="md:flex md:w-full md:gap-6 md:justify-between">
                     <span className="text-[20px]">Cantidad del Producto</span>
-                    <input
-                        type="number"
-                        name="product_units"
-                        id=""
-                        className="rounded-md p-2 bg-[#23262f]"
-                    />
+                    <Input type="text" label="Cantidad" name="product_units" placeholder="Coloque la cantidad de producto" />
+
                 </div>
                 <div className="md:flex md:w-full md:gap-6">
                     <span className="text-[20px]">
                         Descripción del Producto
                     </span>
-                    <input
-                        type="text"
+                    <Textarea
+                        label="Description"
+                        placeholder="Enter your description"
                         name="product_description"
-                        id=""
-                        className="rounded-md p-2 bg-[#23262f]"
+                        className="max-w-xs"
                     />
                 </div>
                 <div className="md:flex md:w-full md:gap-6 md:justify-between">

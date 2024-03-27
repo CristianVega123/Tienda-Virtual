@@ -13,16 +13,6 @@ function ProductsAdmin() {
             <Divider></Divider>
             <ShowProducts />
             <Divider></Divider>
-            <FindProduct />
-            {/* <Accordion variant="splitted" defaultExpandedKeys={["1"]}>
-                <AccordionItem key="1" title="Add Products" className="">
-                </AccordionItem>
-                <AccordionItem key="2" title="Show Products">
-                </AccordionItem>
-
-                <AccordionItem key="3" title="Find Products">
-                </AccordionItem>
-            </Accordion> */}
         </main>
     );
 }

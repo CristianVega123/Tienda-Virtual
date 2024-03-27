@@ -24,9 +24,13 @@ import {
 import { useInfiniteScroll } from "@nextui-org/use-infinite-scroll";
 import { useAsyncList } from "@react-stately/data";
 import { AdminPageContext } from "./../../../Context/ContextAdminPage";
-import { ModalProductDataAction } from "./../../../types/typesAdmins";
+import {
+    ModalProductDataAction,
+    ProductsData,
+} from "./../../../types/typesAdmins";
 import { delete_product_admin } from "../../../services/ServicesAdmin";
 import { show_product } from "../../../services/SericesUsers";
+import { isString } from "util";
 
 const columns = [
     {
@@ -60,16 +64,29 @@ const columns = [
 ];
 
 export default function ShowProducts() {
+    //? Carga
     const [isLoading, setIsLoading] = useState(true);
+    //? If more data
     const [hasMore, setHasMore] = useState(false);
+    /**
+     *? The variable products to identify the product and filter it through the input
+     *? setProduct to update the array of the product that it's saved into the context.
+     */
     const { setProducts, products } = useContext(AdminPageContext);
+    //? Function of NextUI
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+    //? To save the data to be able to update after when to press a button
     const [modalDataAction, setmodalDataAction] =
         useState<ModalProductDataAction>({} as ModalProductDataAction);
 
+    //? The possible product that the admin is searching
+    const [productsFind, setProductsFind] = useState<ProductsData[]>([]);
+    //? The specified word to find out the product that the admin is looking for
+    const [wordChange, setWordChange] = useState<null | string>(null);
+
     let list = useAsyncList({
         async load({ signal, cursor }) {
-            
             // If no cursor is available, then we're loading the first page.
             if (cursor) {
                 setIsLoading(false);
@@ -77,16 +94,13 @@ export default function ShowProducts() {
             // Otherwise, the cursor is the next URL to load, as returned from the previous page.
             const res = await show_product(signal, cursor);
             let json = await res.json();
+
             if (res) {
-                setIsLoading(false)           
-                if (!(json.length === products.length) ) {
-                    setProducts(json)
-                } else {
-                    console.log("same length");
-                    
+                setIsLoading(false);
+                if (!(json.length === products.length)) {
+                    setProducts(json);
                 }
             }
-            
             setHasMore(json.next !== null);
 
             return {
@@ -101,17 +115,59 @@ export default function ShowProducts() {
         onLoadMore: list.loadMore,
     });
 
+    const valueChange = (value: string) => {
+        let valueFind = products.filter((product) =>
+            product.prod_name.includes(value)
+        );
+        console.log(value);
+        
+        if (value === "") {
+            setWordChange(null)
+            setProductsFind([]);
+        } else {
+            setWordChange(value)
+            setProductsFind([...valueFind]);
+        }
+
+        
+    };
     return (
         <>
+            <nav className="flex justify-end">
+                <div className="w-[300px] ">
+                    <Input
+                        label="Products"
+                        size="sm"
+                        variant="faded"
+                        onValueChange={valueChange}
+                    />
+                </div>
+            </nav>
             <Table
                 layout="auto"
                 isHeaderSticky
                 aria-label="Example table with infinite pagination"
                 baseRef={scrollerRef}
                 classNames={{
-                    base: "max-h-[520px] overflow-scroll",
-                    table: "min-h-[400px]",
+                    base: "max-h-[420px] overflow-scroll",
+                    // table: "min-h-[400px]",
                 }}
+                bottomContent={
+                    hasMore && !isLoading && !wordChange ? (
+                        <div className="flex w-full justify-center">
+                            <Button
+                                isDisabled={list.isLoading}
+                                variant="flat"
+                                onPress={list.reload}
+                            >
+                                {list.isLoading && (
+                                    <Spinner color="white" size="sm" />
+                                )}
+                                Load More
+                            </Button>
+                        </div>
+                    ) : null
+                }
             >
                 <TableHeader columns={columns}>
                     {(column) => (
@@ -125,15 +181,13 @@ export default function ShowProducts() {
                     isLoading={isLoading}
                     loadingContent={<Spinner color="white" />}
                 >
-                    {(item: any) => {
-                        // console.log(item);
+                    
+                    { wordChange === null ? (item: any) => {
+                        console.log(wordChange);
                         let index = item.prod_id;
-                        console.log(index);
-
                         return (
                             <TableRow key={index}>
                                 {(columnKey) => {
-
                                     if (columnKey === "p_action") {
                                         return (
                                             <TableCell>
@@ -167,7 +221,7 @@ export default function ShowProducts() {
                                                                 delete_product_admin(
                                                                     item.prod_id
                                                                 );
-                                                                list.reload()
+                                                                list.reload();
                                                             }}
                                                         >
                                                             Delete
@@ -186,7 +240,17 @@ export default function ShowProducts() {
                                 }}
                             </TableRow>
                         );
-                    }}
+                    }:  (
+                        <TableRow key={1}>
+                            <TableCell>{null}</TableCell>
+                            <TableCell>{null}</TableCell>
+                            <TableCell>{null}</TableCell>
+                            <TableCell>{null}</TableCell>
+                            <TableCell>{null}</TableCell>
+                            <TableCell>{null}</TableCell>
+                            <TableCell>{null}</TableCell>
+                        </TableRow>
+                    )}
                 </TableBody>
             </Table>
 
